@@ -4,6 +4,7 @@ from pwn import *
 
 {bindings}
 
+context.terminal = ["tmux", "splitw", "-h"]
 context.binary = {bin_name}
 
 sla = lambda p, d, x: p.sendlineafter(d, x)
@@ -31,7 +32,7 @@ continue
 
 def conn():
     if args.LOCAL:
-        p = process([ld.path, {bin_name}.path], env={{"LD_PRELOAD": libc.path}})
+        p = process([{bin_name}.path])
         if args.GDB:
             gdb.attach(p, gdbscript=gdbscript)
         if args.DEBUG:
