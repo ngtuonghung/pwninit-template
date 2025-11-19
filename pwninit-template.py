@@ -19,7 +19,7 @@ sn = lambda p, n: p.send(str(n).encode())
 
 ru = lambda p, x: p.recvuntil(x)
 rl = lambda p: p.recvline()
-rc = lambda p, n: p.recv(n)
+rn = lambda p, n: p.recvn(n)
 rr = lambda p, t: p.recvrepeat(timeout=t)
 ra = lambda p, t: p.recvall(timeout=t)
 ia = lambda p: p.interactive()
