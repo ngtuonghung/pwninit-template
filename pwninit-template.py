@@ -4,7 +4,6 @@ from pwn import *
 
 {bindings}
 
-context.terminal = ["tilix", "-a", "session-add-right", "-e"]
 context.binary = {bin_name}
 
 sla = lambda p, d, x: p.sendlineafter(d, x)
