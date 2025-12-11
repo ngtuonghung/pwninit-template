@@ -4,6 +4,7 @@ from pwn import *
 
 {bindings}
 
+context.terminal = ['tmux', 'splitw', '-h']
 context.binary = {bin_name}
 
 sla = lambda p, d, x: p.sendlineafter(d, x)
