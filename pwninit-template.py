@@ -24,6 +24,12 @@ rr = lambda p, t: p.recvrepeat(timeout=t)
 ra = lambda p, t: p.recvall(timeout=t)
 ia = lambda p: p.interactive()
 
+pa = lambda t, addr: print(f'{t}: {hex(addr)}')
+binsh = lambda libc: next(libc.search(b"/bin/sh\x00"))
+leak_bytes = lambda r, offset=0: u64(r.ljust(8, b"\0")) - offset
+leak_hex = lambda r, offset=0: int(r, 16) - offset
+leak_dec = lambda r, offset=0: int(r, 10) - offset
+
 gdbscript = '''
 set follow-fork-mode parent
 set detach-on-fork on
