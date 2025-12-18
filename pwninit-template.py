@@ -1,11 +1,7 @@
 #!/usr/bin/env python3
 
 from pwn import *
-
-{bindings}
-
-context.terminal = ['tmux', 'splitw', '-h']
-context.binary = {bin_name}
+import os
 
 sla = lambda p, d, x: p.sendlineafter(d, x)
 sa = lambda p, d, x: p.sendafter(d, x)
@@ -24,13 +20,23 @@ rr = lambda p, t: p.recvrepeat(timeout=t)
 ra = lambda p, t: p.recvall(timeout=t)
 ia = lambda p: p.interactive()
 
-pa = lambda t, addr: print(t, hex(addr))
+lg = lambda t, addr: print(t, '->', hex(addr))
 binsh = lambda libc: next(libc.search(b"/bin/sh\x00"))
 leak_bytes = lambda r, offset=0: u64(r.ljust(8, b"\0")) - offset
 leak_hex = lambda r, offset=0: int(r, 16) - offset
 leak_dec = lambda r, offset=0: int(r, 10) - offset
 
-gdbscript = '''
+{bindings}
+
+# context.terminal = ['tmux', 'splitw', '-h'] # using WSL2 so this is not needed
+context.binary = {bin_name}
+
+# Some fixes for WSL2
+gdbscript = f'''
+cd {os.getcwd()}
+set solib-search-path .
+set sysroot /
+
 set follow-fork-mode parent
 set detach-on-fork on
 continue
