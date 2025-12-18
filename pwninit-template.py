@@ -51,8 +51,8 @@ def conn():
             context.log_level = 'debug'
         return p
     else:
-        host = ""
-        port = 0
+        host = "localhost"
+        port = 1337
         return remote(host, port)
 
 p = conn()
