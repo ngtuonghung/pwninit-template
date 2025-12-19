@@ -32,8 +32,8 @@ leak_dec = lambda r, offset=0: int(r, 10) - offset
 context.binary = {bin_name}
 
 # Some fixes for WSL2
-gdbscript = f'''
-cd {os.getcwd()}
+gdbscript = '''
+cd ''' + os.getcwd() + '''
 set solib-search-path .
 set sysroot /
 
