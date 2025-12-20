@@ -27,10 +27,14 @@ leak_dec = lambda r, offset=0: int(r, 10) - offset
 
 {bindings}
 
-context.terminal = ['tmux', 'splitw', '-h']
+# context.terminal = ['tmux', 'splitw', '-h']
 context.binary = {bin_name}
 
 gdbscript = '''
+cd ''' + os.getcwd() + '''
+set solib-search-path .
+set sysroot /
+
 set follow-fork-mode parent
 set detach-on-fork on
 continue
@@ -39,14 +43,17 @@ continue
 def conn():
     if args.LOCAL:
         p = process([{bin_name}.path])
+        sleep(0.1)
         if args.GDB:
             gdb.attach(p, gdbscript=gdbscript)
-        if args.DEBUG:
-            context.log_level = 'debug'
+            sleep(0.5)
         return p
     else:
-        host = "localhost"
-        port = 1337
+        if args.REMOTE and len(args.REMOTE) > 0:
+            host = "localhost" if args.REMOTE[0] == "0" else args.REMOTE[0]
+        else:
+            host = "localhost"
+        port = int(args.REMOTE[1]) if args.REMOTE and len(args.REMOTE) > 1 else 1337
         return remote(host, port)
 
 p = conn()
