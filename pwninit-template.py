@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 from pwn import *
-import os
 
 sla = lambda p, d, x: p.sendlineafter(d, x)
 sa = lambda p, d, x: p.sendafter(d, x)
@@ -28,15 +27,10 @@ leak_dec = lambda r, offset=0: int(r, 10) - offset
 
 {bindings}
 
-# context.terminal = ['tmux', 'splitw', '-h'] # using WSL2 so this is not needed
+context.terminal = ['tmux', 'splitw', '-h']
 context.binary = {bin_name}
 
-# Some fixes for WSL2
 gdbscript = '''
-cd ''' + os.getcwd() + '''
-set solib-search-path .
-set sysroot /
-
 set follow-fork-mode parent
 set detach-on-fork on
 continue
