@@ -24,15 +24,17 @@ binsh = lambda libc: next(libc.search(b"/bin/sh\x00"))
 leak_bytes = lambda r, offset=0: u64(r.ljust(8, b"\0")) - offset
 leak_hex = lambda r, offset=0: int(r, 16) - offset
 leak_dec = lambda r, offset=0: int(r, 10) - offset
+pad = lambda len=1, c=b'A': c * len
 
 {bindings}
 
-# context.terminal = ['tmux', 'splitw', '-h']
+if args.TMUX:
+    context.terminal = ['tmux', 'splitw', '-h']
 context.binary = {bin_name}
 
 gdbscript = '''
 cd ''' + os.getcwd() + '''
-set solib-search-path .
+set solib-search-path ''' + os.getcwd() + '''
 set sysroot /
 
 set follow-fork-mode parent
