@@ -51,11 +51,8 @@ def conn():
             sleep(0.5)
         return p
     else:
-        if args.REMOTE and len(args.REMOTE) > 0:
-            host = "localhost" if args.REMOTE[0] == "0" else args.REMOTE[0]
-        else:
-            host = "localhost"
-        port = int(args.REMOTE[1]) if args.REMOTE and len(args.REMOTE) > 1 else 1337
+        host = "localhost"
+        port = 1337
         return remote(host, port)
 
 p = conn()
