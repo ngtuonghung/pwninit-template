@@ -28,8 +28,7 @@ pad = lambda len=1, c=b'A': c * len
 
 {bindings}
 
-if args.TMUX:
-    context.terminal = ['tmux', 'splitw', '-h']
+context.terminal = ["/usr/bin/tilix", "-a", "session-add-right", "-e", "bash", "-c"]
 context.binary = {bin_name}
 
 gdbscript = '''
